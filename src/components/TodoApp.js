@@ -2,12 +2,19 @@ import React, { Component } from 'react';
 import logo from '../logo.svg';
 import '../App.css';
 import { TodoList } from "../TodoList";
-import DatePicker from 'react-datepicker';
+import {
+    DatePicker,
+    TimePicker,
+    DateTimePicker,
+    MuiPickersUtilsProvider,
+} from "@material-ui/pickers";
+import DateFnsUtils from '@date-io/date-fns';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import 'react-datepicker/dist/react-datepicker.css';
 import moment from "moment";
 import Login from "./Login";
+import Moment from 'react-moment';
 
 class TodoApp extends Component {
 
@@ -20,15 +27,11 @@ class TodoApp extends Component {
     }
 
     render() {
+
+
         return (
             <div className="TodoApp">
-                <header className="App-header">
-                    <img src={logo} className="App-logo" alt="logo" />
-                    <h1 className="App-title">TODO React App</h1>
-                </header>
-
-                <br />
-                <br />
+              
                 <form onSubmit={this.handleSubmit} className="todo-form">
                     <h3>New TODO</h3>
                   
@@ -54,18 +57,18 @@ class TodoApp extends Component {
                     <br />
                     <label>
                         Select a date for ToDo:
-                        <br/>
-                        <DatePicker
-                            id="due-date"
-                            selected={this.state.dueDate}
-                            placeholderText="Due date"
-                            onChange={this.handleDateChange}
-                            selectsRange
-                            inline>
-                            </DatePicker>   
+                        <br />
+                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                            <DatePicker autoOk
+                                orientation="landscape"
+                                variant="static"
+                                openTo="date"
+                                value={this.state.dueDate}
+                                onChange={this.handleDateChange} />
+                        </MuiPickersUtilsProvider>
                      </label>
                     <br />
-                    <Button variant="outlined" color="primary">
+                    <Button type="Submit" variant="outlined" color="primary" >
                         Add #{this.state.items.length + 1}
                     </Button>
                 </form>
@@ -89,17 +92,17 @@ class TodoApp extends Component {
     }
 
     handleSubmit(e) {
+        console.log(); 
 
         e.preventDefault();
 
         if (!this.state.text.length || !this.state.priority.length || !this.state.dueDate)
             return;
-
+        console.log(this.state.dueDate.toDateString());
         const newItem = {
             text: this.state.text,
             priority: this.state.priority,
-            dueDate: this.state.dueDate,
-
+            dueDate:moment(this.state.dueDate.toDateString()),
         };
         console.log(newItem);
         this.setState(prevState => ({

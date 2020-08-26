@@ -1,7 +1,6 @@
 import React from 'react';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
 import BrandCardHeader from '@mui-treasury/components/cardHeader/brand';
 import TextInfoContent from '@mui-treasury/components/content/textInfo';
 export class Todo extends React.Component {
@@ -13,12 +12,12 @@ export class Todo extends React.Component {
     render() {
         var cardStyle = {
             display: 'block',
-            width: '30vw',
+            width: '20vw',
             transitionDuration: '0.3s',
-            height: '30vw'
+            height: '20vw'
         }
         return (
-
+           
             <Card style={cardStyle}>
                 <BrandCardHeader
                     image={

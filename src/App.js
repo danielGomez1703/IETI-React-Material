@@ -1,24 +1,41 @@
 import React, {Component} from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
-import { BrowserRouter as Router, Link, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Link, Route, Redirect } from 'react-router-dom'
 import TodoApp from "./components/TodoApp";
 import Login from "./components/Login";
 import logo from './logo.svg';
 
 
-class App extends Component {
+localStorage.setItem("mail", "prueba@gmail.com");
+localStorage.setItem("password", "prueba1234");
 
-   
+
+class App extends Component {
+    
+    constructor(props) {
+    
+        super(props);
+        this.state = { isLogged: false };
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+
 
     render() {
+
         const LoginView = () => (
-            <Login />
+            <Login handleClick={this.handleClick} />
         );
 
         const TodoAppView = () => (
             <TodoApp />
         );
+
+        const view = this.state.isLogged ? TodoAppView : LoginView
+        
         return (
+
+
             <Router>
                 <div className="App">
                     <header className="App-header">
@@ -28,20 +45,21 @@ class App extends Component {
 
                     <br />
                     <br />
-
-                    <ul>
-                        <li><Link to="/">Login</Link></li>
-                        <li><Link to="/todo">Todo</Link></li>
-                    </ul>
-
-                    <div>
-                        <Route exact path="/" component={LoginView} />
-                        <Route path="/todo" component={TodoAppView} />
+                       
+                        <Route exact path="/" component={view} />
+                    
                     </div>
-                </div>
-            </Router>
+                     </Router>
+           
         );
+    
     }
+
+    handleClick(e) {
+        this.setState({ isLogged: true })
+    }
+
+
 }
 
 export default App;
